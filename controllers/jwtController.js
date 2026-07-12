@@ -39,7 +39,6 @@ exports.authOptional = (req, res, next) => {
     }
 
     const token = authHeader.split(' ')[1];
-    console.log(token === null)
     if(token === 'null'){
         req.user = null;
         return next();

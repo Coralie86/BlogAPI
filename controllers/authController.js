@@ -57,3 +57,15 @@ exports.logout = async (req,res) => {
     return res.status(200).json({message: "Logout Successful."})
 
 }
+
+exports.getUser = async (req,res) => {
+    const user = req.user;
+    if(!user){
+        return res.status(401).json({message: "Not authenticated"})
+    }
+    try {
+        return res.status(200).json({isadmin: req.user.isadmin})
+    } catch(err) {
+        return res.status(500).json({error: err.message})
+    }
+}

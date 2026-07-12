@@ -141,7 +141,6 @@ async function createComment(postid, authorId, commentData){
 }
 
 async function updateComment(commentId, newComment){
-    console.log(newComment)
     if(typeof(commentId) !== "number"){
         const err = new Error("CommentId is not a number.")
     }
