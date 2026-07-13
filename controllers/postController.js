@@ -49,7 +49,7 @@ exports.getPostById = async (req, res, next) => {
     }
 }
 
-exports.editPost = async (req, res) => {
+exports.editPost = async (req, res, next) => {
     const user = req.user;
     if(!user || !user.isadmin) {
         return res.status(401).json({message:"Only Admin can performed that action"})
@@ -62,11 +62,17 @@ exports.editPost = async (req, res) => {
 
     const newPost = req.body;
     if(!newPost){
-        return res.status(400).json({message: "Insert a title and deccription."})
+        return res.status(400).json({message: "Insert a title and deccription or switch Publish."})
     }
 
     try {
-        const postEdited = await db.editPost(postId, newPost);
+        let postEdited = {};
+        console.log(newPost.body)
+        if(!newPost.body.isPublished == undefined){
+            postEdited = await db.editPost(postId, newPost);
+        } else {
+            postEdited = await db.publishPost(postId, newPost);
+        }        
         res.status(200).json({post: postEdited, message: "Post has been successfully edited."});
     } catch(err){
         next(err)

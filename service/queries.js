@@ -66,8 +66,8 @@ async function editPost(id, postData){
 
     const postEdited = await prisma.post.update({
         data: {
-            title: postData.title,
-            description: postData.description,
+            title: postData.body.title,
+            description: postData.body.description,
         },
         where: {
             id: id,
@@ -80,6 +80,31 @@ async function editPost(id, postData){
     }
 
     return postEdited;
+}
+
+async function publishPost(id, postData){
+    if(typeof(id) !== "number"){
+        const err = new Error("id is not a number.")
+        err.status(500);
+        throw(err)
+    }
+
+    const postPublished = await prisma.post.update({
+        data: {
+            ispublished: postData.body.isPublished,
+        },
+        where: {
+            id: id,
+        }
+    })
+
+    if(!postPublished){
+        const err = new Error("Update not well performed.");
+        err.status(500);
+        throw err
+    }
+
+    return postPublished;
 }
 
 async function deletePost(postId) {
@@ -168,5 +193,5 @@ async function deleteComment(commentId){
 }
 
 module.exports = {getAllPosts, getPublishedPosts, createPost, getPostById, editPost, deletePost, getPostComments,createComment,
-    updateComment, deleteComment
+    updateComment, deleteComment, publishPost
 }
