@@ -66,8 +66,8 @@ async function editPost(id, postData){
 
     const postEdited = await prisma.post.update({
         data: {
-            title: postData.body.title,
-            description: postData.body.description,
+            title: postData.title,
+            description: postData.description,
         },
         where: {
             id: id,
@@ -91,7 +91,7 @@ async function publishPost(id, postData){
 
     const postPublished = await prisma.post.update({
         data: {
-            ispublished: postData.body.isPublished,
+            ispublished: postData.isPublished,
         },
         where: {
             id: id,

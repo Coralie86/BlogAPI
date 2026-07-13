@@ -1,19 +1,25 @@
 const jwtController = require("./jwtController.js")
-const db = require("../service/queries.js")
+const db = require("../service/queries.js");
+const { validationResult } = require("express-validator");
 
 exports.editComment = async (req, res, next) => {
+    const errors = validationResult(req);
+
+    if(!errors.isEmpty()){
+        return res.status(400).json({errors: errors.array()})
+    }
+
     const user = req.user;
     if(!user || !user.isadmin){
-        return res.status(401).json({message:"Only Admin can performed that action"})
+        return res.status(401).json({errors: [{msg: "Only Admin can performed that action"}]})
     }
     const commentId = parseInt(req.params.commentId);
     if (!commentId){
-        return res.status(400).json({message: "No comment Id."})
+        return res.status(400).json({errors: [{msg: "No comment Id."}]})
     }
     const newComment = req.body;
-    console.log(newComment)
     if (!newComment){
-        return res.status(400).json({message: "Insert a description."})
+        return res.status(400).json({errors: [{msg: "Insert a description."}]})
     }
     try {
         await db.updateComment(commentId, newComment);

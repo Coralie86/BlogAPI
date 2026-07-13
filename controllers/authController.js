@@ -2,12 +2,19 @@ const prisma = require("../lib/prisma.js")
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 const jwtController = require("./jwtController.js")
+const {validationResult} = require("express-validator")
 
 exports.register = async (req, res) => {
+    const errors = validationResult(req);
+    
+    if(!errors.isEmpty()){
+        return res.status(400).json({errors: errors.array()})
+    }
+
     const newUser = req.body;
 
     if(!newUser.username || !newUser.email || !newUser.password) {
-        return res.status(400).json({message: "Missing required field."})
+        return res.status(400).json({errors: [{msg: "Missing required field."}]})
     }
 
     try {
@@ -26,6 +33,12 @@ exports.register = async (req, res) => {
 }
 
 exports.login = async (req,res) => {
+    const errors = validationResult(req);
+
+    if(!errors.isEmpty()){
+        return res.status(400).json({errors: errors.array()})
+    }
+
     const userLogged = req.body;
 
     if(!userLogged){
@@ -39,11 +52,11 @@ exports.login = async (req,res) => {
             }
         })
         if(!user){
-            return res.status(401).json({ message: "email does not exist."})
+            return res.status(401).json({ errors: [{msg: "email does not exist."}]})
         }
         const match = await bcrypt.compare(userLogged.password, user.password)
         if(!match){
-            return res.status(401).json({ message: "Wrong password."});
+            return res.status(401).json({ errors: [{msg: "Wrong password."}]});
         }
         const token = jwtController.generateToken(user);
         return res.status(200).json({ message: "Loggin successful", token, isadmin: user.isadmin});
