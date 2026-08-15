@@ -1,0 +1,12 @@
+.errorContainer {
+    margin: 20px;
+}
+
+.errorContainer > a {
+    color: black;
+    text-decoration: underline;
+}
+.errorContainer > a:hover {
+    cursor: pointer;
+    color: grey;
+}

@@ -1,0 +1,73 @@
+li {
+    list-style: none;
+}
+
+.page{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    margin: 30px 0px;
+    box-shadow: 0px 0px 6px 0px rgb(24, 46, 14);
+    padding: 50px 40px 30px;
+    border-radius: 10px;
+    min-width: 740px;
+}
+
+h1 {
+    font-size: 28px;
+    margin: 0px 0px 20px;
+    font-family: 'Times New Roman', Times, serif;
+}
+
+h2 {
+    font-weight: normal;
+    margin: 10px 0px 0px;
+    font-size: 20px;
+    font-family: 'Times New Roman', Times, serif;
+}
+
+.postList {
+    width: 100%;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(320px, 400px)) ;
+    gap: 40px;
+    margin: 40px 0px;
+    justify-content: center;
+}
+
+.postCard {
+    background-color: white;
+    border-radius: 10px;
+    padding: 20px;
+    box-shadow: 0px 0px 6px 0px rgb(172, 171, 171);
+    font-family: 'Times New Roman', Times, serif;
+}
+
+.postCard:hover {
+    transform: scale(1.05,1.05);
+}
+
+.date {
+    font-size: 12px;
+    font-style: italic;
+    color: grey;
+    padding: 20px 0px 5px;
+    border-bottom: 1px solid rgba(128, 128, 128, 0.151);
+    text-align: right;
+}
+
+.readMore {
+    margin-top: 15px;
+    color: rgb(13, 85, 49)
+}
+
+.readMore:hover {
+    color: rgb(69, 131, 88);
+}
+
+.addPost{
+    color: rgb(13, 85, 49);
+    font-size: 22px;
+    margin-top: 30px;
+}

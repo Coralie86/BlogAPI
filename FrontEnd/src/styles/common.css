@@ -1,0 +1,10 @@
+body {
+    margin: 4em 15em;
+    background-color: rgb(246, 253, 245);
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+}
+
+#root{    
+    min-width: 570px;
+}
+
