@@ -37,3 +37,17 @@ a:hover {
 .headerNav {
     margin: 10px;
 }
+
+@media (max-width: 1000px){
+    .navBar{
+        display: flex;
+        flex-direction: column;
+        gap: 15px;
+        width: 90vw;
+        padding: 10px 10px;
+        min-width: 0px;
+    }
+    .navBar h1 {
+        font-size: 32px;
+    }
+}

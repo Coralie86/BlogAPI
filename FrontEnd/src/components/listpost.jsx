@@ -3,8 +3,11 @@ import { Link, Outlet} from "react-router-dom"
 import style from "../styles/listpost.module.css"
 import {AuthContext} from "./authContext.jsx"
 import {fecthPostList} from "../services/posts.js"
+import { useNavigate } from "react-router-dom";
+import { logout } from "../services/auth.js"
 
 export default function Listpost() {
+    const navigate = useNavigate();
     const [posts, setPosts] = useState([]);
     const {auth, setAuth} = useContext(AuthContext);
 
@@ -13,8 +16,8 @@ export default function Listpost() {
 
         async function fetchPosts() {
             try {
-                const response = await fecthPostList(auth);
-                
+                let response = await fecthPostList(auth, setAuth);
+
                 setPosts(response.postsList.map(post => ({
                     id: post.id,
                     title: post.title,

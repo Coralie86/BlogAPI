@@ -1,5 +1,6 @@
 import {createContext, useEffect, useState} from "react";
 import {fecthUserLogged} from "../services/auth.js"
+import { useNavigate } from "react-router-dom";
 
 export const AuthContext = createContext();
 
@@ -16,7 +17,7 @@ export function AuthProvider({children}) {
                 try {
                     if(auth.token){
                         localStorage.setItem('token', auth.token)
-                        const response = await fecthUserLogged(auth, controller.signal);
+                        const response = await fecthUserLogged(auth, setAuth, controller.signal);
                         
                         setAuth(prev => ({
                             ...prev,

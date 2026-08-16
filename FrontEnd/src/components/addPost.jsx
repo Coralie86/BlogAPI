@@ -20,7 +20,7 @@ export default function PostCreate() {
         const formData = new FormData(form);
 
         try {
-            await createPost(formData, auth);
+            await createPost(formData, auth, setAuth);
             navigate('/posts');
         } catch(err) {
             setErrors(err)

@@ -1,14 +1,22 @@
 const API_URL = import.meta.env.VITE_API_URL
+import { authFetch } from "../services/auth.js"
+import { logout } from "../services/auth.js";
 
-export async function fecthPostList(auth) {
-    const response = await fetch(`${API_URL}/posts`,{
+export async function fecthPostList(auth, setAuth) {
+    let response = await authFetch(`${API_URL}/posts`,{
         method: "GET",
         headers: {
             "Content-Type": "application/json",
-            "Authorization": `Bearer ${auth.token}`,
         }
-    });
-    const data = await response.json();
+    }, auth, setAuth);
+    
+    let data = await response.json()
+    
+    if(data.connected === false){
+        localStorage.removeItem("token");
+        logout();
+        setAuth({token: null, isadmin: false});
+    }
 
     if(!response.ok){
         throw new Error("server error");
@@ -30,14 +38,14 @@ export async function fecthPostList(auth) {
     return await res.json();    
 }
 
-export async function deletePost(postId, auth) {
-    const response = await fetch(`${API_URL}/posts/${postId}`, {
+export async function deletePost(postId, auth, setAuth) {
+    const response = await authFetch(`${API_URL}/posts/${postId}`, {
         method: "DELETE",
         headers: {
             "Content-Type": "application/json",
-            "Authorization": `Bearer ${auth.token}`
         }
-    })
+    }, auth, setAuth)
+
     if(!response.ok){
         throw new Error("Failed to delete post.")
     }
@@ -45,15 +53,14 @@ export async function deletePost(postId, auth) {
     return await response.json()
 }
 
-export async function createPost(formData, auth) {
-    const response = await fetch(`${API_URL}/posts`, {
+export async function createPost(formData, auth, setAuth) {
+    const response = await authFetch(`${API_URL}/posts`, {
         method: "POST",
         headers: {
             "Content-Type":"application/json",
-            "Authorization": `Bearer ${auth.token}`,
         },
         body: JSON.stringify(Object.fromEntries(formData.entries()))
-    })
+    }, auth, setAuth)
 
     const data = await response.json();
 
@@ -64,7 +71,7 @@ export async function createPost(formData, auth) {
     
 }
 
-export async function updatePost({postId, title, description, isPublished, auth}) {
+export async function updatePost({postId, title, description, isPublished, auth, setAuth}) {
     const body = {};
 
     if(title !== undefined) {
@@ -79,15 +86,13 @@ export async function updatePost({postId, title, description, isPublished, auth}
         body.isPublished = isPublished;
     }
 
-    console.log(JSON.stringify(body))
-    const response = await fetch(`${API_URL}/posts/${postId}`, {
+    const response = await authFetch(`${API_URL}/posts/${postId}`, {
         method: "PUT",
         headers: {
             "Content-Type": "application/json",
-            "Authorization": `Bearer ${auth.token}`,
         },
         body: JSON.stringify(body)
-    })
+    }, auth, setAuth)
     
     const data = await response.json();
 

@@ -58,7 +58,7 @@ exports.login = async (req,res) => {
         if(!match){
             return res.status(401).json({ errors: [{msg: "Wrong password."}]});
         }
-        const token = jwtController.generateToken(user);
+        const token = jwtController.generateToken(user, process.env.JWT_EXPIRESIN);
         return res.status(200).json({ message: "Loggin successful", token, isadmin: user.isadmin});
     } catch(err) {
         return res.status(500).json({error:err.message})

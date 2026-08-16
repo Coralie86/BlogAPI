@@ -7,7 +7,7 @@ import {fetchCommentsPost, createComment, deleteComment, updateComment} from "..
 import { useEffect, useState } from "react";
 import Errors from "./errors.jsx"
 
-export function Comment({comment, auth, postId, setComments}){
+export function Comment({comment, auth, postId, setComments, setAuth}){
     const [isEditable, setIsEditable] = useState(false);
     const [errors, setErrors] = useState([]);
 
@@ -19,7 +19,7 @@ export function Comment({comment, auth, postId, setComments}){
         }
         
         try {
-            await deleteComment(comment.id, auth);
+            await deleteComment(comment.id, auth, setAuth);
             const commentPost = await fetchCommentsPost(postId);
             setComments(commentPost.postComments)
         } catch (err) {
@@ -40,7 +40,7 @@ export function Comment({comment, auth, postId, setComments}){
         const newdescr = document.getElementById("inputCom_"+commentId).value
 
         try {
-            const response = await updateComment(commentId, newdescr, auth);
+            const response = await updateComment(commentId, newdescr, auth, setAuth);
             const commentPost = await fetchCommentsPost(postId);
             setComments(commentPost.postComments)
             setIsEditable(false)
@@ -88,7 +88,7 @@ export function Comment({comment, auth, postId, setComments}){
     )
 }
 
-export function NewComment({setComments, comments, setErrors, postId, auth}){
+export function NewComment({setComments, comments, setErrors, postId, auth, setAuth}){
 
 
     const handleSubmit = async (e) => {
@@ -98,7 +98,7 @@ export function NewComment({setComments, comments, setErrors, postId, auth}){
         const formData = new FormData(form);
 
         try {
-            const response = await createComment(postId, formData, auth);
+            const response = await createComment(postId, formData, auth, setAuth);
             const commentPost = await fetchCommentsPost(postId);
             setComments(commentPost.postComments)
         } catch(err) {

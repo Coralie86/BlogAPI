@@ -7,9 +7,7 @@ import {logout} from "../services/auth.js"
 
 export default function Navbar() {
     const {auth, setAuth} = useContext(AuthContext);
-    const navigate = useNavigate();
-
-    
+    const navigate = useNavigate();    
 
     const handleLogout = async (e) => {
         try{

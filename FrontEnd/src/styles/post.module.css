@@ -256,3 +256,35 @@ svg * {
     cursor: pointer;
     background-color: rgb(236, 51, 51);
 }
+
+
+
+@media (max-width: 1000px){
+    .page {
+        min-width: 0px;
+        width: 90vw;
+        padding: 50px 5px 0px;
+    }
+    .titleDescPost {
+        flex-direction: column;
+        gap: 20px;
+    }
+    .titleDescPost h1 {
+        text-align: center;
+        font-size: 30px;
+    }
+    .comments {
+        font-size: 20px;
+        padding: 20px 15px;
+        width: 95%;
+    }
+    .commentDesc {
+        font-size: 14px;
+    }
+    p {
+        font-size: 11px;
+    }
+    .datePost {
+        font-size: 12px;
+    }
+}

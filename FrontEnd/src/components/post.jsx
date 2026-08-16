@@ -54,7 +54,7 @@ export default function Post() {
 
     const handleDeletePost = async() => {
         try {
-            await deletePost(postId, auth);
+            await deletePost(postId, auth, setAuth);
             navigate('/posts')
         } catch (err) {
             console.log(err)
@@ -66,7 +66,7 @@ export default function Post() {
         const newDescription = document.getElementById('description').value;
 
         try {
-            await updatePost({postId: postId, title: newTitle, description: newDescription, auth: auth})
+            await updatePost({postId: postId, title: newTitle, description: newDescription, auth: auth, setAuth:setAuth})
             setIsEditablePost(false)
             setErrors([])
         } catch(err) {
@@ -76,7 +76,7 @@ export default function Post() {
 
     const handlePublished = async() => {
         try {
-            const response = await updatePost({postId: postId, isPublished: !isPublished, auth: auth})
+            const response = await updatePost({postId: postId, isPublished: !isPublished, auth: auth, setAuth:setAuth})
             setIsPublished(response.post.ispublished)
         } catch (err) {
             console.log(err)
@@ -120,11 +120,11 @@ export default function Post() {
                     <div className={style.commentList}>
                         { comments.length > 0 && comments.map(comment => {
                             return (
-                            <Comment key={comment.id} comment={comment} auth={auth} postId={postId} setComments={setComments} />
+                            <Comment key={comment.id} comment={comment} auth={auth} postId={postId} setComments={setComments} setAuth={setAuth} />
                             )
                         })}
                     </div>
-                    {auth.token ? ( <NewComment setComments={setComments} comments={comments} setErrors={setErrors} postId={postId} auth={auth} />)
+                    {auth.token ? ( <NewComment setComments={setComments} comments={comments} setErrors={setErrors} postId={postId} auth={auth} setAuth={setAuth} />)
                     : (<Link className={style.loginLink}  to='/login' >Please <b>Login</b> to comment</Link>)
                     }                  
                 </div>

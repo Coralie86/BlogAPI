@@ -11,7 +11,7 @@ const commentRouter = require("./routers/commentRouter.js")
 const app= express();
 
 const corsOptions = {
-    origin: 'http://localhost:5173',
+    origin: process.env.FRONTEND_URL,
     optionsSuccessStatus: 200,
 }
 
@@ -26,7 +26,7 @@ app.use(express.json());
 app.use(express.urlencoded({extended: true}));
 
 // Set up PORT
-const PORT = 3000;
+const PORT = process.env.PORT;
 app.listen(PORT, (error) => {
     if (error) {
         throw error;

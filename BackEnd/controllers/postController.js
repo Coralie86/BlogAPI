@@ -12,7 +12,7 @@ exports.getPosts = async (req, res, next) => {
         } else {
             postsList = await db.getAllPosts();
         }        
-        return res.status(200).json({postsList: postsList})
+        return res.status(200).json({postsList: postsList, connected: !user ? false : true})
     } catch(err){
         next(err)
     }   
