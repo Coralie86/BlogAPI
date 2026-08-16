@@ -17,7 +17,7 @@ The project consists of a REST API built with Node.js and Express, a PostgreSQL 
 
 ## Technologies used
 
-### Frontend
+### FrontEnd
 
 React
 React Router
@@ -36,19 +36,19 @@ JWT
 
 ### Clone the repository:
 
-### Install FrontEnd:
+### FrontEnd
 
 ```bash
 npm install
 npm run dev
 ```
 
-### Set up the database:
+### Set up db:
 
 npx prisma migrate dev
 npx prisma generate
 
-### BackEnd:
+### Backend
 
 ```bash
 npm install
