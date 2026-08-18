@@ -138,6 +138,9 @@ async function getPostComments(postId) {
         },
         include: {
             author: true,
+        },
+        orderBy: {
+            timestamp: "desc"
         }
     });
     if(!commentList){

@@ -30,6 +30,7 @@ Express
 Prisma
 PostgreSQL
 JWT
+DOMPurify and Sanitize
 
 
 ## Getting Started

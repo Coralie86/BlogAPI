@@ -109,7 +109,7 @@ export function NewComment({setComments, comments, setErrors, postId, auth, setA
     return(
         <form className={style.newComment} method="POST" onSubmit={handleSubmit} >
             <input type="text" id="description" name="description" placeholder="Insert your comment" className={style.descriptionInput} required />
-            <button className={style.submitBtn} type="submit" >POST</button>
+            <button className={style.submitBtn} type="submit" >COMMENT</button>
         </form>
     )
 }

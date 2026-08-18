@@ -1,6 +1,7 @@
 const jwtController = require("./jwtController.js")
 const db = require("../service/queries.js");
 const { validationResult } = require("express-validator");
+const sanitizeHTML = require("../utils/sanitizeHTML.js");
 
 exports.editComment = async (req, res, next) => {
     const errors = validationResult(req);
@@ -21,8 +22,13 @@ exports.editComment = async (req, res, next) => {
     if (!newComment){
         return res.status(400).json({errors: [{msg: "Insert a description."}]})
     }
+
+    const newCommentCleaned = {
+        description: sanitizeHTML(newComment.description),
+    }
+
     try {
-        await db.updateComment(commentId, newComment);
+        await db.updateComment(commentId, newCommentCleaned);
         res.status(200).json({message:"Comment has been successfully updated."})
     } catch(err){
         next(err)

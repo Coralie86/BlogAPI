@@ -1,7 +1,8 @@
 const prisma = require("../lib/prisma.js")
 const jwtController = require("./jwtController.js")
 const db = require("../service/queries.js")
-const {validationResult} = require("express-validator")
+const {validationResult} = require("express-validator");
+const sanitizeHTML = require("../utils/sanitizeHTML.js");
 
 exports.getPosts = async (req, res, next) => {
     const user = req.user;
@@ -34,9 +35,15 @@ exports.newPost = async (req, res, next) => {
     if(!newPost){
         return res.status(400).json({errors: [{msg: "Please enter a title and description."}]})
     }
+
+    const newPostCleaned = {
+        title: sanitizeHTML(newPost.title),
+        description: sanitizeHTML(newPost.description),
+    }
+
     try {
-        await db.createPost(newPost);
-        res.status(201).json(newPost)
+        await db.createPost(newPostCleaned);
+        res.status(201).json(newPostCleaned)
     } catch(err){
         next(err);
     }
@@ -80,12 +87,18 @@ exports.editPost = async (req, res, next) => {
         return res.status(400).json({errors: [{msg: "Insert a title and deccription or switch Publish."}]})
     }
 
+    const newPostCleaned = {
+        title: sanitizeHTML(newPost.title),
+        description: sanitizeHTML(newPost.description),
+        isPublished: newPost.isPublished,
+    }
+
     try {
         let postEdited = {};
         if(newPost.isPublished == undefined){
-            postEdited = await db.editPost(postId, newPost);
+            postEdited = await db.editPost(postId, newPostCleaned);
         } else {
-            postEdited = await db.publishPost(postId, newPost);
+            postEdited = await db.publishPost(postId, newPostCleaned);
         }        
         res.status(200).json({post: postEdited, message: "Post has been successfully edited."});
     } catch(err){
@@ -143,8 +156,14 @@ exports.newPostComment = async (req, res, next) => {
     if(!commentData){
         return res.status(400).json({errors: [{msg: "Insert a description."}]});
     }
+
+    const commentDataCleaned = {
+        description: sanitizeHTML(commentData.description),
+    }
+
+
     try {
-        const newComment = await db.createComment(postId, user, commentData);
+        const newComment = await db.createComment(postId, user, commentDataCleaned);
         res.status(200).json({message:"comment has been successfully added.", newComment: newComment});
     } catch(err) {
         next(err);

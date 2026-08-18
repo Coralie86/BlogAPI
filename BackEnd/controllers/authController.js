@@ -3,6 +3,7 @@ const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 const jwtController = require("./jwtController.js")
 const {validationResult} = require("express-validator")
+const sanitizeHTML = require("../utils/sanitizeHTML.js");
 
 exports.register = async (req, res) => {
     const errors = validationResult(req);
@@ -12,17 +13,22 @@ exports.register = async (req, res) => {
     }
 
     const newUser = req.body;
+    const newUserCleaned = {
+        username: sanitizeHTML(newUser.username),
+        email: sanitizeHTML(newUser.email),
+        password: sanitizeHTML(newUser.password),
+    }
 
-    if(!newUser.username || !newUser.email || !newUser.password) {
+    if(!newUserCleaned.username || !newUserCleaned.email || !newUserCleaned.password) {
         return res.status(400).json({errors: [{msg: "Missing required field."}]})
     }
 
     try {
         await prisma.user.create({
             data: {
-                username: newUser.username,
-                email: newUser.email,
-                password: await bcrypt.hash(newUser.password, 10),
+                username: newUserCleaned.username,
+                email: newUserCleaned.email,
+                password: await bcrypt.hash(newUserCleaned.password, 10),
             }
         });
         res.status(200).json({message: "User added"})
