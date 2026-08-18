@@ -1,4 +1,4 @@
-Blog API
+# Blog API
 
 A full-stack blog application built as part of The Odin Project.
 The project consists of a REST API built with Node.js and Express, a PostgreSQL database accessed through Prisma, and a React frontend.
