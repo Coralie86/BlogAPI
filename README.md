@@ -78,3 +78,7 @@ Admin account: pof@pof.com, Test123?
 
 ### Improvements
 - Add a Guest connection that limits the action to add Comment (no edit or deletion)
+
+## Creadits
+
+Project idea and requirements: The Odin Project: https://www.theodinproject.com/
