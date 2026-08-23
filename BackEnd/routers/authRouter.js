@@ -5,6 +5,7 @@ const {registerValidations, loginValidations} = require("../controllers/validati
 
 const authRouter = Router();
 
+authRouter.get('/health', authController.wakeUp)
 authRouter.post('/register', registerValidations, authController.register)
 authRouter.post('/login', loginValidations, authController.login)
 authRouter.post('/logout', authController.logout)

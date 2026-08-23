@@ -8,10 +8,15 @@ import Post from "./components/post.jsx"
 import { createBrowserRouter, RouterProvider } from 'react-router-dom'
 import {AuthProvider} from "./components/authContext.jsx"
 import PostCreate from "./components/addPost.jsx";
+import ServerWakeUp from './components/serverWakeUp.jsx'
 
 const router = createBrowserRouter([
   {
-    path: "/",
+    path:"/",
+    element:<ServerWakeUp />,
+  },
+  {
+    path: "/app",
     element: <Navbar />,
     children: [
       {
@@ -21,10 +26,10 @@ const router = createBrowserRouter([
         path: ":page", element: <Children />,
       },
       {
-        path: "/posts/:postId", element: <Post />,
+        path: "posts/:postId", element: <Post />,
       },
       {
-        path: "/posts/:postId/edit", element: <PostCreate />,
+        path: "posts/:postId/edit", element: <PostCreate />,
       }
     ]
   }

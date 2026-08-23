@@ -3,13 +3,12 @@ import { Link, Outlet} from "react-router-dom"
 import style from "../styles/listpost.module.css"
 import {AuthContext} from "./authContext.jsx"
 import {fecthPostList} from "../services/posts.js"
-import { useNavigate } from "react-router-dom";
 import { logout } from "../services/auth.js"
 
 export default function Listpost() {
-    const navigate = useNavigate();
     const [posts, setPosts] = useState([]);
     const {auth, setAuth} = useContext(AuthContext);
+    const [loading, setLoading] = useState(true)
 
     useEffect(() => {
         const controller = new AbortController();
@@ -29,6 +28,8 @@ export default function Listpost() {
                 
             } catch(err){
                 console.log(err)
+            } finally {
+                setLoading(false)
             }
         }
         
@@ -47,7 +48,10 @@ export default function Listpost() {
                 <h2> Here are few posts that I would like to share with you.</h2>
                 <h2>Feel free to <b>Register</b> to share your thoughts on these topics.</h2>
                 {auth.isadmin && (
-                    <Link className={style.addPost} to="/new" >+ ADD POST</Link>
+                    <Link className={style.addPost} to="/app/new" >+ ADD POST</Link>
+                )}
+                {loading && (
+                    <p className={style.loading}>Loading List...</p>
                 )}
                 <div className={style.postList} >
                     {posts.map(post => {
@@ -72,7 +76,7 @@ function PostCard({post}) {
                 <p>{post.date}</p>
             </div>
             <div className={style.readMore} >
-                <Link className={style.readMore} to={`/posts/${post.id}`} >Read more</Link>
+                <Link className={style.readMore} to={`/app/posts/${post.id}`} >Read more</Link>
              </div>
         </div>
     )

@@ -26,7 +26,7 @@ export default function Login() {
                     isadmin: response.isadmin
                 });
 
-                navigate('/posts');
+                navigate('/app/posts');
                     
             } catch(err) {
                 setErrors(err)

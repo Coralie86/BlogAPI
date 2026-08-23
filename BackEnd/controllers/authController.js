@@ -5,6 +5,10 @@ const jwtController = require("./jwtController.js")
 const {validationResult} = require("express-validator")
 const sanitizeHTML = require("../utils/sanitizeHTML.js");
 
+exports.wakeUp = async (req, res) => {
+    return res.status(200).json({status: "ok"})
+}
+
 exports.register = async (req, res) => {
     const errors = validationResult(req);
     
@@ -21,6 +25,26 @@ exports.register = async (req, res) => {
 
     if(!newUserCleaned.username || !newUserCleaned.email || !newUserCleaned.password) {
         return res.status(400).json({errors: [{msg: "Missing required field."}]})
+    }
+
+    const existsUsername = await prisma.user.findMany({
+        where: {
+                username: newUserCleaned.username
+            }
+        })
+
+    if(existsUsername.length > 0){
+        return res.status(401).json({errors: [{msg: "Username already taken."}]})
+    }
+
+    const existsEmail = await prisma.user.findMany({
+        where: {
+                email: newUserCleaned.email
+            }
+        })
+
+    if(existsEmail.length > 0){
+        return res.status(401).json({errors: [{msg: "Email already taken."}]})
     }
 
     try {

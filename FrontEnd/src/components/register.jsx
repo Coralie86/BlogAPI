@@ -16,7 +16,7 @@ export default function Register() {
 
         try { 
             await register(formData);
-            navigate('/posts')           
+            navigate('/app/posts')           
         } catch(err) {
             setErrors(err)
         }

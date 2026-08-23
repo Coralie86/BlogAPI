@@ -17,7 +17,7 @@ export default function Navbar() {
                 token: null,
                 isadmin: false
             });
-            navigate('/login')
+            navigate('/app/login')
         } catch(err){
             console.log(err)
         }
@@ -28,12 +28,12 @@ export default function Navbar() {
             <div className={style.navBar} >
                 <h1 className={style.headerNav}>BlogPosts</h1>
                 <div className={style.buttonContainer}>
-                    <Link className={style.navButton} to="/posts">POSTS</Link>
+                    <Link className={style.navButton} to="/app/posts">POSTS</Link>
                     { auth.token ? (<Link className={style.navButton} onClick={handleLogout}>LOGOUT</Link>) 
                     : (
                         <>
-                        <Link className={style.navButton} to="/register">REGISTER</Link> 
-                        <Link className={style.navButton} to='/login'>SIGN IN</Link>
+                        <Link className={style.navButton} to="/app/register">REGISTER</Link> 
+                        <Link className={style.navButton} to='/app/login'>SIGN IN</Link>
                         </>
                     )}
                     

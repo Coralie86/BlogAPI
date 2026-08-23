@@ -21,7 +21,7 @@ export default function PostCreate() {
 
         try {
             await createPost(formData, auth, setAuth);
-            navigate('/posts');
+            navigate('/app/posts');
         } catch(err) {
             setErrors(err)
         }

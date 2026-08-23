@@ -55,7 +55,7 @@ export default function Post() {
     const handleDeletePost = async() => {
         try {
             await deletePost(postId, auth, setAuth);
-            navigate('/posts')
+            navigate('/app/posts')
         } catch (err) {
             console.log(err)
         }
@@ -125,7 +125,7 @@ export default function Post() {
                         })}
                     </div>
                     {auth.token ? ( <NewComment setComments={setComments} comments={comments} setErrors={setErrors} postId={postId} auth={auth} setAuth={setAuth} />)
-                    : (<Link className={style.loginLink}  to='/login' >Please <b>Login</b> to comment</Link>)
+                    : (<Link className={style.loginLink}  to='/app/login' >Please <b>Login</b> to comment</Link>)
                     }                  
                 </div>
             </div>

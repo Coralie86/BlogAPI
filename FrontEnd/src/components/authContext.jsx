@@ -1,6 +1,5 @@
 import {createContext, useEffect, useState} from "react";
 import {fecthUserLogged} from "../services/auth.js"
-import { useNavigate } from "react-router-dom";
 
 export const AuthContext = createContext();
 
